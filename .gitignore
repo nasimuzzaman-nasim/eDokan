@@ -1,7 +1,7 @@
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=django,react
-
+migrations
 ### Django ###
 *.log
 *.pot
@@ -23,7 +23,7 @@ media
 
 # C extensions
 *.so
-
+__pycache__
 # Distribution / packaging
 .Python
 build/

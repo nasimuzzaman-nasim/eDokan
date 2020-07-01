@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.decorators import api_view, permission_classes, APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.pagination import PageNumberPagination
 
 from account.api.serializers import BaseAccountSerializer, BaseAccount, UserProfileSerializer, UserProfile
 
@@ -26,15 +27,12 @@ def registration_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserList(generics.ListAPIView):
+class UserListView(generics.ListAPIView):
     queryset = BaseAccount.objects.all()
     serializer_class = BaseAccountSerializer
     permission_classes = [IsAdminUser]
-
-    # def get(self, request, format=None):
-    #     usernames = [user.username for user in query_set]
-    #     return Response(usernames, status=status.HTTP_200_OK)
-
+    pagination_class = PageNumberPagination
+    
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])

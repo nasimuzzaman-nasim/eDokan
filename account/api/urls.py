@@ -7,6 +7,6 @@ app_name = 'auth'
 urlpatterns = [
     path('register/', aav.registration_view, name="register"),
     path('login/', obtain_auth_token, name="login"),
-    path('user-list/', aav.UserList.as_view(), name="user-list"),
+    path('user-list/', aav.UserListView.as_view(), name="user-list"),
     # path('profile/<str:username>/', aav.DetailView.as_view(), name="detail"),
 ]

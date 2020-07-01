@@ -4,6 +4,11 @@ from django.contrib.auth.models import AbstractUser
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import User
+
+
+def get_uplaod_file_name(user, filename):
+    return u'dp/%s/%s' % (user.username, filename)
 
 
 class BaseAccount(AbstractUser):
@@ -18,7 +23,7 @@ class BaseAccount(AbstractUser):
 class UserProfile(models.Model):
     base = models.OneToOneField(BaseAccount, on_delete=models.CASCADE)
 
-    dp = models.ImageField(upload_to='photos/', blank=True, null=True, verbose_name="Display picture")
+    dp = models.ImageField(upload_to=get_uplaod_file_name, blank=True, null=True, verbose_name="Display picture")
     first_name = models.CharField(max_length=25, blank=True, null=True)
     last_name = models.CharField(max_length=25, blank=True, null=True)
     balance = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
@@ -53,5 +58,6 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=None, **kwargs):
+    # print(User.username,  '------------------------------------------------------')
     if created:
         Token.objects.create(user=instance)
